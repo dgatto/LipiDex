@@ -115,6 +115,7 @@ public class Lipid extends Utilities
 		formula = tempFormula;
 
 		calculateMass();
+		
 	}
 
 	public String toString()
@@ -132,51 +133,86 @@ public class Lipid extends Utilities
 	public void generateName()
 	{
 		//Add class name
-		name = lClass.getAbbreviation()+" ";
-
+		name = lClass.getAbbreviation()+" (";
+		
 		//Add fatty acids
 		for (int i=0; i<fattyAcids.size(); i++)
 		{
 			name = name + fattyAcids.get(i).getName();
-			if ((i+1)<fattyAcids.size()) name = name +"_";
+			if ((i+1)<fattyAcids.size()) name = name +"/";
 		}
 
-		name = name+" "+adduct.getName();
+		name = name + ")";
 	}
 
-	//Generatre msp entry for library generation
+	private void formatItems() {
+		
+		// Separate molecules in chemical formula (i.e. -> H10 O2 C6)
+		for (int i = 1; i < formula.length(); i++) {
+		    char currentChar   = formula.charAt(i);
+		    char behindOneChar = formula.charAt(i - 1);
+		    char aheadOneChar;
+		    // If last index of formula, then 'aheadOneChar' will be out of bounds, so we hardcode it to 'A'
+		    if (i == formula.length() - 1) {
+			    aheadOneChar = 'A';
+		    } else {
+		    	aheadOneChar = formula.charAt(i + 1);
+		    }
+		    
+		    // If the current char is uppercase, the previous char was a digit, and the next char is not an 
+		    // uppercase letter, then that signals the end of a molecule, so insert a space in between them
+		    if (Character.isUpperCase(currentChar)) {
+		    	if (Character.isDigit(behindOneChar) && !Character.isUpperCase(aheadOneChar)) {
+		    		formula = formula.substring(0, i) + " " + formula.substring(i, formula.length());
+		    	}
+		    }    
+		}
+		
+	}
+	
+	// Generate msp entry for library generation
 	public String generateMSPResult()
 	{
 		String result = "";
 		boolean optimalPolarity = false;
+		
+		formatItems();
 
 		if (lClass.optimalPolarity.contains(this.polarity)) optimalPolarity = true;
 
-		//Name field
-		result += "Name: "+name+";\n";
+		// Name field
+		result += "Name: " + name + "\n";
+		
+		// Compound ID field
+		result += "Compound ID: " + name + "\n";
 
-		//MW field
-		result += "MW: "+roundToFourDecimals(mass)+"\n";
+		// Precursor Type field
+		result += "Precursor_Type: " + adduct.getName() + "\n";
+		
+		// Precursor MZ field
+		result += "PrecursorMZ: " + roundToFourDecimals(mass) + "\n";
 
-		//Precursor MZ field
-		result += "PRECURSORMZ: "+roundToFourDecimals(mass)+"\n";
-
-		//Comment Field
+		// Comment field
 		result += "Comment: "+"Name="+name
 				+" Mass="+roundToFourDecimals(mass)
-				+" Formula="+formula
 				+" OptimalPolarity="+optimalPolarity
 				+" Type=LipiDex"+"\n";
+		
+		// Formula field
+		result += "Formula: " + formula + "\n";
 
-		//NumPeaks Field
+		// NumPeaks field
 		result += "Num Peaks: "+generatedMS2.getTransitions().size()+"\n";
 
-		//MS2 array
+		// MS2 array
 		for (int i=0; i<generatedMS2.getTransitions().size(); i++)
 		{
-			result += roundToFourDecimals(generatedMS2.getTransitions().get(i).getMass())+" "+
-					Math.round(generatedMS2.getTransitions().get(i).getIntensity())
-					+" \""+generatedMS2.getTransitions().get(i).getType()+"\"\n";
+//			result += roundToFourDecimals(generatedMS2.getTransitions().get(i).getMass())+" "+
+//					Math.round(generatedMS2.getTransitions().get(i).getIntensity())
+//					+" \""+generatedMS2.getTransitions().get(i).getType()+"\"\n";
+			
+			result += roundToFourDecimals(generatedMS2.getTransitions().get(i).getMass()) + " " +
+						Math.round(generatedMS2.getTransitions().get(i).getIntensity()) + "\n";
 		}
 
 		return result;
