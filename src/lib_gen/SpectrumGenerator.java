@@ -68,12 +68,12 @@ public class SpectrumGenerator extends JInternalFrame {
 			InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException, IOException, CustomException {
 
 		//Populate lipid classes from active library
-		readFattyAcids("src/libraries/"+activeLib+"\\FattyAcids.csv");
-		readAdducts("src/libraries/"+activeLib+"\\Adducts.csv");
-		readClass("src/libraries/"+activeLib+"\\Lipid_Classes.csv");
+		readFattyAcids("src/libraries/"+activeLib+"/FattyAcids.csv");
+		readAdducts("src/libraries/"+activeLib+"/Adducts.csv");
+		readClass("src/libraries/"+activeLib+"/Lipid_Classes.csv");
 		populateFattyAcids();
 		populateConsensusClasses();
-		ms2Templates = uploadTemplates(false, false, "src/libraries/"+activeLib+"\\MS2_Templates.csv");
+		ms2Templates = uploadTemplates(false, false, "src/libraries/"+activeLib+"/MS2_Templates.csv");
 
 		//Set GUI parameters
 		setClosable(true);

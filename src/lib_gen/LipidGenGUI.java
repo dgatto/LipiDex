@@ -157,9 +157,9 @@ public class LipidGenGUI extends JInternalFrame {
 
 		//Load in all configuration files
 		try {
-			readFattyAcids("src/libraries/"+activeLib+"\\FattyAcids.csv");
-			readAdducts("src/libraries/"+activeLib+"\\Adducts.csv");
-			readClass("src/libraries/"+activeLib+"\\Lipid_Classes.csv");
+			readFattyAcids("src/libraries/"+activeLib+"/FattyAcids.csv");
+			readAdducts("src/libraries/"+activeLib+"/Adducts.csv");
+			readClass("src/libraries/"+activeLib+"/Lipid_Classes.csv");
 
 		} catch (IOException e1) {
 			@SuppressWarnings("unused")
@@ -269,7 +269,7 @@ public class LipidGenGUI extends JInternalFrame {
 			public void actionPerformed(ActionEvent e) 
 			{
 				updateClassArrays(classTableModel,classTable);
-				writeClassArraytoCSV("src/libraries/"+activeLib+"\\Lipid_Classes.csv");
+				writeClassArraytoCSV("src/libraries/"+activeLib+"/Lipid_Classes.csv");
 				populateFragClassList(classDropDown);
 				updateOutputTable();
 			}
@@ -415,7 +415,7 @@ public class LipidGenGUI extends JInternalFrame {
 			public void actionPerformed(ActionEvent e) 
 			{
 				updateAdductArrays(adductTableModel, adductTable);
-				writeAdductArraytoCSV("src/libraries/"+activeLib+"\\Adducts.csv");
+				writeAdductArraytoCSV("src/libraries/"+activeLib+"/Adducts.csv");
 				populateFragClassList(classDropDown);
 				updateOutputTable();
 			}
@@ -522,9 +522,9 @@ public class LipidGenGUI extends JInternalFrame {
 			public void actionPerformed(ActionEvent e) 
 			{
 				updateFAArrays((DefaultTableModel)fattyAcidTable.getModel());
-				writeFAArraytoCSV("src/libraries/"+activeLib+"\\FattyAcids.csv");
+				writeFAArraytoCSV("src/libraries/"+activeLib+"/FattyAcids.csv");
 				try {
-					readFattyAcids("src/libraries/"+activeLib+"\\FattyAcids.csv");
+					readFattyAcids("src/libraries/"+activeLib+"/FattyAcids.csv");
 				} catch (IOException e1) {
 					CustomError ce = new CustomError ("Error saving fatty acids", e1);
 				}
@@ -622,7 +622,7 @@ public class LipidGenGUI extends JInternalFrame {
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-				saveFragRules("src/libraries/"+activeLib+"\\MS2_Templates.csv");
+				saveFragRules("src/libraries/"+activeLib+"/MS2_Templates.csv");
 				updateOutputTable();
 			}
 		});
@@ -633,7 +633,7 @@ public class LipidGenGUI extends JInternalFrame {
 			public void actionPerformed(ActionEvent e) 
 			{
 				try {
-					ms2Templates = uploadTemplates(false, false,"src/libraries/"+activeLib+"\\MS2_Templates.csv");
+					ms2Templates = uploadTemplates(false, false,"src/libraries/"+activeLib+"/MS2_Templates.csv");
 					tree.setModel(renderFragList(tree,false));
 					expandAllNodes(tree);
 				} catch (IOException e1) {
@@ -718,12 +718,12 @@ public class LipidGenGUI extends JInternalFrame {
 				try {
 					//Create progress dialog
 					//Load in all configuration files
-					readFattyAcids("src/libraries/"+activeLib+"\\FattyAcids.csv");
-					readAdducts("src/libraries/"+activeLib+"\\Adducts.csv");
-					readClass("src/libraries/"+activeLib+"\\Lipid_Classes.csv");
+					readFattyAcids("src/libraries/"+activeLib+"/FattyAcids.csv");
+					readAdducts("src/libraries/"+activeLib+"/Adducts.csv");
+					readClass("src/libraries/"+activeLib+"/Lipid_Classes.csv");
 					populateFattyAcids();
 					populateConsensusClasses();
-					ms2Templates = uploadTemplates(false, false, "src/libraries/"+activeLib+"\\MS2_Templates.csv");
+					ms2Templates = uploadTemplates(false, false, "src/libraries/"+activeLib+"/MS2_Templates.csv");
 
 					//Create spectrum generator window
 					SpectrumGenerator sg = new SpectrumGenerator(activeLib, null, null, null);
@@ -1098,9 +1098,9 @@ public class LipidGenGUI extends JInternalFrame {
 		if (selectedClasses.size()>0)
 		{
 			//Load in all configuration files
-			readFattyAcids("src/libraries/"+activeLib+"\\FattyAcids.csv");
-			readAdducts("src/libraries/"+activeLib+"\\Adducts.csv");
-			readClass("src/libraries/"+activeLib+"\\Lipid_Classes.csv");
+			readFattyAcids("src/libraries/"+activeLib+"/FattyAcids.csv");
+			readAdducts("src/libraries/"+activeLib+"/Adducts.csv");
+			readClass("src/libraries/"+activeLib+"/Lipid_Classes.csv");
 
 			//Populate all possible FA combinations
 			populateFattyAcids();
@@ -1109,7 +1109,7 @@ public class LipidGenGUI extends JInternalFrame {
 			populateConsensusClasses();
 
 			//Read Template file
-			ms2Templates = uploadTemplates(true, true, "src/libraries/"+activeLib+"\\MS2_Templates.csv");
+			ms2Templates = uploadTemplates(true, true, "src/libraries/"+activeLib+"/MS2_Templates.csv");
 
 			//Generate MS2s
 			generateMS2FromTemplate(selectedClasses,transitionTypes);
@@ -1151,7 +1151,7 @@ public class LipidGenGUI extends JInternalFrame {
 		populateConsensusClasses();
 
 		//Read Template file
-		if (!addedNode) ms2Templates = uploadTemplates(false, false, "src/libraries/"+activeLib+"\\MS2_Templates.csv");
+		if (!addedNode) ms2Templates = uploadTemplates(false, false, "src/libraries/"+activeLib+"/MS2_Templates.csv");
 
 		//Sort templates
 		Collections.sort(ms2Templates);
@@ -1377,7 +1377,7 @@ public class LipidGenGUI extends JInternalFrame {
 		String filename;
 		String incompleteLibs = "";
 		PrintWriter pw = null;
-
+		
 		outputTable.getColumnModel().getColumn(0).setResizable(false);
 		outputTable.getColumnModel().getColumn(1).setResizable(false);
 
@@ -1395,7 +1395,7 @@ public class LipidGenGUI extends JInternalFrame {
 					try
 					{
 						//Create filename
-						filename = outputDir+"\\"+ms2Templates.get(i).lipidClass.getName()+".msp";
+						filename = outputDir+"/"+ms2Templates.get(i).lipidClass.getName()+".msp";
 
 						try
 						{
@@ -1406,7 +1406,7 @@ public class LipidGenGUI extends JInternalFrame {
 							SimpleDateFormat extendedName = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 							Date today = Calendar.getInstance().getTime();        
 							String reportDate = extendedName.format(today);
-							pw = new PrintWriter(outputDir+"\\"+ms2Templates.get(i).lipidClass.getName()+reportDate+".msp");
+							pw = new PrintWriter(outputDir+"/"+ms2Templates.get(i).lipidClass.getName()+reportDate+".msp");
 						}
 
 						for (int j=0; j<ms2Templates.get(i).theoreticalLipids.size(); j++)
@@ -1430,7 +1430,7 @@ public class LipidGenGUI extends JInternalFrame {
 			DateFormat df = new SimpleDateFormat("yyyyMMdd");
 			Date today = Calendar.getInstance().getTime();        
 			String reportDate = df.format(today);
-			filename = outputDir+"\\"+activeLib+"_"+reportDate+".msp";
+			filename = outputDir+"/"+activeLib+"_"+reportDate+".msp";
 
 			try
 			{
@@ -1441,7 +1441,7 @@ public class LipidGenGUI extends JInternalFrame {
 				SimpleDateFormat extendedName = new SimpleDateFormat("yyyyMMddHHmmss");
 				today = Calendar.getInstance().getTime();        
 				reportDate = extendedName.format(today);
-				pw = new PrintWriter(outputDir+"\\"+activeLib+"_"+reportDate+".msp");
+				pw = new PrintWriter(outputDir+"/"+activeLib+"_"+reportDate+".msp");
 			}
 
 			for (int i=0; i<ms2Templates.size(); i++)
@@ -2143,25 +2143,7 @@ public class LipidGenGUI extends JInternalFrame {
 		}
 
 	}
-
-	//Renders fatty acid table based on last saved data
-	public static DefaultTableModel createFAModel()
-	{
-		DefaultTableModel model = new DefaultTableModel(renderFAList(),
-				new String[] {"Name", "Type", "Formula", "Enabled"}) 
-		{boolean[] columnEditables = new boolean[] {true, true, true, true};
-		public boolean isCellEditable(int row, int column) 
-		{return columnEditables[column];}
-		@Override
-		public Class<?> getColumnClass(int columnIndex) {
-			return columnIndex == 3 ? Boolean.class : super.getColumnClass(columnIndex);
-		}};
-
-		updateFAArrays(model);
-
-		return model;
-	}
-
+	
 	//Write fatty acid array to .csv when saved
 	public static void writeFAArraytoCSV(String filename)
 	{
@@ -2180,6 +2162,24 @@ public class LipidGenGUI extends JInternalFrame {
 			CustomException error = new CustomException("Error saving fatty acids to .csv", null);
 		}
 
+	}
+
+	//Renders fatty acid table based on last saved data
+	public static DefaultTableModel createFAModel()
+	{
+		DefaultTableModel model = new DefaultTableModel(renderFAList(),
+				new String[] {"Name", "Type", "Formula", "Enabled"}) 
+		{boolean[] columnEditables = new boolean[] {true, true, true, true};
+		public boolean isCellEditable(int row, int column) 
+		{return columnEditables[column];}
+		@Override
+		public Class<?> getColumnClass(int columnIndex) {
+			return columnIndex == 3 ? Boolean.class : super.getColumnClass(columnIndex);
+		}};
+
+		updateFAArrays(model);
+
+		return model;
 	}
 
 	//Update class array from last saved information
@@ -2524,7 +2524,7 @@ public class LipidGenGUI extends JInternalFrame {
 	{
 		try {
 			readClass("src/libraries/"+activeLib+"/Lipid_Classes.csv");
-			ms2Templates = uploadTemplates(false, false, "src/libraries/"+activeLib+"\\MS2_Templates.csv");
+			ms2Templates = uploadTemplates(false, false, "src/libraries/"+activeLib+"/MS2_Templates.csv");
 
 			//Reset table
 			outputTable.setModel(new DefaultTableModel(
@@ -2586,7 +2586,7 @@ public class LipidGenGUI extends JInternalFrame {
 		//remove all letter characters
 		for (int i=0; i<split.length; i++)
 		{
-			split[i] = split[i].replaceAll("[^\\d.]", "");
+			split[i] = split[i].replaceAll("[^/d.]", "");
 			split[i] = split[i].replaceAll("-", "");
 		}
 
