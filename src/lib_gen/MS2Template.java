@@ -129,7 +129,7 @@ public class MS2Template extends Utilities implements Comparable<MS2Template>
 			else
 			{
 				//Sort fatty acid array
-				Collections.sort(faTemp);
+				//Collections.sort(faTemp);
 
 				//Create string representing FAArray
 				for (int i=0; i<faTemp.size(); i++)

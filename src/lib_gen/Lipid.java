@@ -133,16 +133,20 @@ public class Lipid extends Utilities
 	public void generateName()
 	{
 		//Add class name
-		name = lClass.getAbbreviation()+" (";
-		
+		name = lClass.getAbbreviation()+"(";
+
 		//Add fatty acids
 		for (int i=0; i<fattyAcids.size(); i++)
 		{
 			name = name + fattyAcids.get(i).getName();
-			if ((i+1)<fattyAcids.size()) name = name +"/";
-		}
 
-		name = name + ")";
+			if (i + 1 < fattyAcids.size()) {
+				name = name + "/";
+			} else {
+				name = name + ")";
+			}
+
+		}
 	}
 
 	private void formatItems() {
